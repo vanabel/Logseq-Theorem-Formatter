@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rm -rf dist",
     "dev": "npm run clean && vite",
-    "build": "npm run clean && tsc && vite build",
+    "build": "npm run clean && tsc && vite build && cd dist && zip -r ../logseq-theorem-formatter.zip .",
     "preview": "vite preview",
     "watch": "npm run clean && vite build --watch"
   },

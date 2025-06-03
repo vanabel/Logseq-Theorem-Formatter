@@ -1,13 +1,14 @@
 # Logseq Theorem Formatter
 
-A Logseq plugin that formats theorem blocks with customizable styling and supports multiple theorem environments.
+A Logseq plugin that formats theorem-like blocks with customizable styles and supports both English and Chinese theorem environments.
 
 ## Features
 
-- Automatically formats theorem blocks with proper styling
-- Supports multiple theorem environments (Theorem, Lemma, Corollary, etc.)
-- Fully customizable styling through plugin settings
-- Preserves math formula styling while applying custom fonts
+- **Bilingual Support**: Use theorem environments in English, Chinese, or both languages
+- **Customizable Environments**: Define your own theorem environments for both English and Chinese
+- **Flexible Styling**: Customize font, colors, borders, and spacing
+- **Math Formula Support**: Preserves proper formatting for mathematical formulas
+- **Real-time Updates**: Automatically formats blocks as you type
 
 ## Installation
 
@@ -18,41 +19,96 @@ A Logseq plugin that formats theorem blocks with customizable styling and suppor
 
 ## Usage
 
-Create a block starting with any of the configured theorem environments (e.g., `#Theorem`, `#Lemma`, `#Corollary`, etc.) and the plugin will automatically format it.
+### Basic Usage
 
-## Customization
+1. Create a block with a theorem environment tag (e.g., `#Theorem` or `#定理`)
+2. The block will be automatically formatted according to your settings
 
-The plugin provides extensive customization options through the plugin settings:
+### Example Blocks
 
-### Theorem Environments
-- Configure which theorem environments to use (e.g., Theorem, Lemma, Corollary)
-- Enter environments separated by commas
-- Default environments: Theorem, Lemma, Corollary, Proposition, Definition, Example, Remark, Note, Proof
+```
+#Theorem
+This is a theorem block.
+
+#Lemma
+This is a lemma block.
+
+#定理
+这是一个定理块。
+
+#引理
+这是一个引理块。
+```
+
+### Language Settings
+
+The plugin supports three language modes:
+- English only (`en`)
+- Chinese only (`zh`)
+- Both languages (`both`)
+
+### Customizing Environments
+
+You can customize theorem environments for both English and Chinese:
+
+1. Go to Plugin Settings
+2. Under "English Theorem Environments", enter your custom environments separated by commas
+3. Under "Chinese Theorem Environments", enter your custom Chinese environments separated by commas
+
+Default English environments:
+```
+Theorem, Lemma, Corollary, Proposition, Definition, Example, Remark, Note, Proof
+```
+
+Default Chinese environments:
+```
+定理, 引理, 推论, 命题, 定义, 例子, 注记, 注释, 证明
+```
 
 ### Styling Options
-- Font Family: Choose the font for theorem blocks (default: KaiTi)
-- Font Size: Set the size of theorem text
-- Font Weight: Choose from various weights (normal, bold, etc.)
-- Font Style: Select normal, italic, or oblique
-- Text Color: Set the color of theorem text
-- Background Color: Choose the background color
-- Border: Customize border color, width, and style
-- Spacing: Adjust padding and margin
-- Border Radius: Set corner roundness
+
+Customize the appearance of your theorem blocks:
+
+- **Font Family**: Choose your preferred font (e.g., "KaiTi", "楷体", "STKaiti", "华文楷体", serif)
+- **Font Size**: Set the size of the text
+- **Font Weight**: Choose from normal, bold, or various weights
+- **Font Style**: Select normal, italic, or oblique
+- **Text Color**: Set the color of the text
+- **Background Color**: Choose the background color
+- **Border**: Customize border color, width, and style
+- **Spacing**: Adjust padding and margin
+- **Border Radius**: Set the corner roundness
 
 ## Development
+
+### Prerequisites
+
+- Node.js 16 or later
+- npm or yarn
+
+### Setup
 
 1. Clone the repository
 2. Install dependencies:
    ```bash
    npm install
    ```
-3. Build the plugin:
+3. Start development:
    ```bash
-   npm run build
+   npm run dev
    ```
-4. Load the plugin in Logseq
+
+### Building
+
+To build the plugin:
+```bash
+npm run build
+```
 
 ## License
 
 MIT
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.

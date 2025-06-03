@@ -11,12 +11,14 @@ marked.use({
 })
 
 // Use Logseq's logging system
-const log = (msg: string) => {
-  logseq.UI.showMsg(`[Theorem Formatter] ${msg}`, 'info')
+const log = (msg: string, showPopup: boolean = false) => {
+  if (showPopup) {
+    logseq.UI.showMsg(`[Theorem Formatter] ${msg}`, 'info')
+  }
   console.log(`[Theorem Formatter] ${msg}`)
 }
 
-log('Plugin script starting...')
+log('Plugin script starting...', false)
 
 // Define settings type
 interface TheoremSettings {
@@ -33,6 +35,8 @@ interface TheoremSettings {
   margin: string
   borderRadius: string
   customEnvironments: string
+  customChineseEnvironments: string
+  language: 'en' | 'zh' | 'both'
 }
 
 // Default settings
@@ -49,17 +53,32 @@ const defaultSettings: TheoremSettings = {
   padding: '0px',
   margin: '0px',
   borderRadius: '0px',
-  customEnvironments: 'Theorem, Lemma, Corollary, Proposition, Definition, Example, Remark, Note, Proof'
+  customEnvironments: 'Theorem, Lemma, Corollary, Proposition, Definition, Example, Remark, Note, Proof',
+  customChineseEnvironments: '定理, 引理, 推论, 命题, 定义, 例子, 注记, 注释, 证明',
+  language: 'en'
 }
 
 // Helper function to parse custom environments
-const parseCustomEnvironments = (customEnvironments: string): string[] => {
-  if (!customEnvironments) return []
+const parseCustomEnvironments = (settings: TheoremSettings): string[] => {
+  const environments: string[] = []
   
-  return customEnvironments
-    .split(',')
-    .map(env => env.trim())
-    .filter(env => env.length > 0)
+  if (settings.language === 'en' || settings.language === 'both') {
+    const enEnvs = (settings.customEnvironments || '')
+      .split(',')
+      .map(env => env.trim())
+      .filter(env => env.length > 0)
+    environments.push(...enEnvs)
+  }
+  
+  if (settings.language === 'zh' || settings.language === 'both') {
+    const zhEnvs = (settings.customChineseEnvironments || '')
+      .split(',')
+      .map(env => env.trim())
+      .filter(env => env.length > 0)
+    environments.push(...zhEnvs)
+  }
+  
+  return environments
 }
 
 // Helper function to get settings with defaults
@@ -67,7 +86,6 @@ const getSettings = (): TheoremSettings => {
   const settings = logseq.settings
   if (!settings) return defaultSettings
   
-  const customEnvironments = (settings.customEnvironments as string) || ''
   return {
     fontFamily: (settings.fontFamily as string) || defaultSettings.fontFamily,
     fontSize: (settings.fontSize as string) || defaultSettings.fontSize,
@@ -81,12 +99,36 @@ const getSettings = (): TheoremSettings => {
     padding: (settings.padding as string) || defaultSettings.padding,
     margin: (settings.margin as string) || defaultSettings.margin,
     borderRadius: (settings.borderRadius as string) || defaultSettings.borderRadius,
-    customEnvironments: customEnvironments.trim() ? customEnvironments : defaultSettings.customEnvironments
+    customEnvironments: (settings.customEnvironments as string) || defaultSettings.customEnvironments,
+    customChineseEnvironments: (settings.customChineseEnvironments as string) || defaultSettings.customChineseEnvironments,
+    language: (settings.language as 'en' | 'zh' | 'both') || defaultSettings.language
   }
 }
 
 // Register settings
 logseq.useSettingsSchema([
+  {
+    key: 'language',
+    type: 'enum',
+    enumChoices: ['en', 'zh', 'both'],
+    default: defaultSettings.language,
+    title: 'Language',
+    description: 'Choose the language for theorem environments (English, Chinese, or both)'
+  },
+  {
+    key: 'customEnvironments',
+    type: 'string',
+    default: defaultSettings.customEnvironments,
+    title: 'English Theorem Environments',
+    description: 'Enter English theorem environments separated by commas (e.g., "Theorem, Lemma, Corollary"). Each environment will be used as a tag (e.g., #Theorem, #Lemma).'
+  },
+  {
+    key: 'customChineseEnvironments',
+    type: 'string',
+    default: defaultSettings.customChineseEnvironments,
+    title: 'Chinese Theorem Environments',
+    description: '输入中文定理环境，用逗号分隔（例如："定理, 引理, 推论"）。每个环境将用作标签（例如：#定理, #引理）。'
+  },
   {
     key: 'fontFamily',
     type: 'string',
@@ -173,22 +215,15 @@ logseq.useSettingsSchema([
     default: defaultSettings.borderRadius,
     title: 'Border Radius',
     description: 'Border radius for theorem blocks (e.g., "0px", "5px")'
-  },
-  {
-    key: 'customEnvironments',
-    type: 'string',
-    default: defaultSettings.customEnvironments,
-    title: 'Custom Theorem Environments',
-    description: 'Enter theorem environments separated by commas (e.g., "Theorem, Lemma, Corollary"). Each environment will be used as a tag (e.g., #Theorem, #Lemma).'
   }
 ])
 
 const main = async () => {
-  log('Plugin main function starting...')
+  log('Plugin main function starting...', false)
 
   // Function to generate CSS based on settings
   const generateCSS = (settings: TheoremSettings) => {
-    const environments = parseCustomEnvironments(settings.customEnvironments)
+    const environments = parseCustomEnvironments(settings)
     if (environments.length === 0) return ''
     
     const enabledSelectors = environments.map(env => 
@@ -274,7 +309,7 @@ const main = async () => {
 
   // Listen for settings changes
   logseq.onSettingsChanged(() => {
-    log('Settings changed, updating styles...')
+    log('Settings changed, updating styles...', false)
     applyStyles()
   })
 
@@ -284,7 +319,7 @@ const main = async () => {
       if (!block.content) return
       
       const settings = getSettings()
-      const environments = parseCustomEnvironments(settings.customEnvironments)
+      const environments = parseCustomEnvironments(settings)
       if (environments.length === 0) return
       
       // Check if the block starts with any of the enabled theorem environments
@@ -297,7 +332,7 @@ const main = async () => {
           block.content.startsWith(`#${env}`)
         )?.toLowerCase()
         
-        log(`Found new ${envType} block: ${block.content}`)
+        log(`Found new ${envType} block: ${block.content}`, false)
         
         await logseq.Editor.updateBlock(block.uuid, block.content, {
           properties: {
@@ -306,18 +341,18 @@ const main = async () => {
           }
         })
         
-        log('Block styled successfully')
+        log('Block styled successfully', false)
       }
     } catch (error) {
-      log(`Error: ${error}`)
+      log(`Error: ${error}`, true) // Show popup for errors
     }
   })
 
-  log('Plugin initialization complete')
+  log('Plugin initialization complete', false)
 }
 
 // Initialize the plugin
-log('Calling logseq.ready...')
+log('Calling logseq.ready...', false)
 logseq.ready(main).catch((error) => {
-  log(`Plugin failed to initialize: ${error}`)
+  log(`Plugin failed to initialize: ${error}`, true) // Show popup for initialization errors
 }) 

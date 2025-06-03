@@ -1,0 +1,11 @@
+{
+  "title": "Theorem Formatter",
+  "description": "Format theorem blocks with customizable styling and support for multiple theorem environments (Theorem, Lemma, Corollary, etc.)",
+  "author": "vanabel",
+  "repo": "vanabel/logseq-theorem-formatter",
+  "icon": "",
+  "theme": false,
+  "sponsors": [],
+  "web": false,
+  "effect": false
+} 
