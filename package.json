@@ -1,0 +1,28 @@
+{
+  "name": "logseq-theorem-formatter",
+  "version": "0.0.1",
+  "description": "Transform #Theorem blocks into AMS-style theorem formatting",
+  "main": "dist/index.html",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "dev": "npm run clean && vite",
+    "build": "npm run clean && tsc && vite build",
+    "preview": "vite preview",
+    "watch": "npm run clean && vite build --watch"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@logseq/libs": "^0.0.15"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "typescript": "^4.9.4",
+    "vite": "^4.0.4"
+  },
+  "logseq": {
+    "id": "logseq-theorem-formatter",
+    "icon": "",
+    "main": "dist/index.html"
+  }
+} 

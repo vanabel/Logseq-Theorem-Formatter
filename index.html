@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Logseq Theorem Formatter</title>
+    <script>
+        window.onload = function() {
+            if (window.logseq) {
+                logseq.UI.showMsg('Plugin HTML loaded', 'info');
+            }
+            document.body.style.display = 'none';
+        };
+    </script>
+</head>
+<body>
+    <div id="app">Loading plugin...</div>
+    <script type="module" src="./src/index.ts"></script>
+</body>
+</html> 
