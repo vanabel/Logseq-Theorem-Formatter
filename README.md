@@ -10,6 +10,10 @@ A Logseq plugin that formats theorem-like blocks with customizable styles and su
 - **Math Formula Support**: Preserves proper formatting for mathematical formulas
 - **Real-time Updates**: Automatically formats blocks as you type
 
+## Screenshots
+
+![Theorem Formatter Demo](./assets/theorem-formatter-demo.png)
+
 ## Installation
 
 1. Go to Logseq Settings
