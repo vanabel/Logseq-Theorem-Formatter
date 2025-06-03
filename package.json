@@ -1,6 +1,6 @@
 {
   "name": "logseq-theorem-formatter",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Transform #Theorem blocks into AMS-style theorem formatting",
   "main": "dist/index.html",
   "scripts": {
