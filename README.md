@@ -112,3 +112,36 @@ MIT
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Submitting to Logseq Marketplace
+
+To submit this plugin to the Logseq marketplace:
+
+1. Fork the [Logseq marketplace repository](https://github.com/logseq/logseq-plugin-samples)
+2. Create a new directory for your plugin in the `plugins` folder
+3. Copy your `manifest.json` file to the new directory
+4. Create a pull request with the following:
+   - Clear description of your plugin
+   - At least one screenshot or GIF demonstrating the plugin
+   - Ensure your SDK is up to date
+   - Attach the release zip file
+
+### Release Process
+
+1. Update version in `package.json`
+2. Build the plugin:
+   ```bash
+   npm run build
+   ```
+3. Create a new release on GitHub:
+   - Tag version (e.g., v1.0.0)
+   - Title: "Release v1.0.0"
+   - Description: List of changes
+   - Attach the built zip file from `dist/logseq-theorem-formatter.zip`
+
+The GitHub Action will automatically:
+1. Build the plugin
+2. Create a zip file
+3. Upload it as a release asset
+
+After your pull request is approved, the plugin will be available in the Logseq marketplace.
