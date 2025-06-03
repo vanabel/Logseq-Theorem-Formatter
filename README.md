@@ -1,16 +1,13 @@
 # Logseq Theorem Formatter
 
-A Logseq plugin that formats theorem blocks with proper styling and KaiTi font.
+A Logseq plugin that formats theorem blocks with customizable styling and supports multiple theorem environments.
 
 ## Features
 
 - Automatically formats theorem blocks with proper styling
-- Applies KaiTi font to theorem text while preserving math formula styling
-- Supports various theorem formats:
-  - Basic theorems: `#Theorem Some text` → `**Theorem.** Some text`
-  - Numbered theorems: `#Theorem 1.1 Some text` → `**Theorem 1.1.** Some text`
-  - Named theorems: `#Theorem [Name] Some text` → `**Theorem (Name).** Some text`
-  - Numbered and named theorems: `#Theorem 1.1 [Name] Some text` → `**Theorem 1.1 (Name).** Some text`
+- Supports multiple theorem environments (Theorem, Lemma, Corollary, etc.)
+- Fully customizable styling through plugin settings
+- Preserves math formula styling while applying custom fonts
 
 ## Installation
 
@@ -21,50 +18,27 @@ A Logseq plugin that formats theorem blocks with proper styling and KaiTi font.
 
 ## Usage
 
-Simply create a block starting with `#Theorem` and the plugin will automatically format it. The plugin supports the following formats:
+Create a block starting with any of the configured theorem environments (e.g., `#Theorem`, `#Lemma`, `#Corollary`, etc.) and the plugin will automatically format it.
 
-1. Basic theorem:
-   ```
-   #Theorem Some text
-   ```
-   Will be formatted as:
-   ```
-   **Theorem.** Some text
-   ```
+## Customization
 
-2. Numbered theorem:
-   ```
-   #Theorem 1.1 Some text
-   ```
-   Will be formatted as:
-   ```
-   **Theorem 1.1.** Some text
-   ```
+The plugin provides extensive customization options through the plugin settings:
 
-3. Named theorem:
-   ```
-   #Theorem [Name] Some text
-   ```
-   Will be formatted as:
-   ```
-   **Theorem (Name).** Some text
-   ```
+### Theorem Environments
+- Configure which theorem environments to use (e.g., Theorem, Lemma, Corollary)
+- Enter environments separated by commas
+- Default environments: Theorem, Lemma, Corollary, Proposition, Definition, Example, Remark, Note, Proof
 
-4. Numbered and named theorem:
-   ```
-   #Theorem 1.1 [Name] Some text
-   ```
-   Will be formatted as:
-   ```
-   **Theorem 1.1 (Name).** Some text
-   ```
-
-## Styling
-
-- Theorem text is displayed in KaiTi font
-- Math formulas (KaTeX) maintain their original styling
-- Theorem headers are displayed in bold
-- The `#Theorem` tag is hidden after formatting
+### Styling Options
+- Font Family: Choose the font for theorem blocks (default: KaiTi)
+- Font Size: Set the size of theorem text
+- Font Weight: Choose from various weights (normal, bold, etc.)
+- Font Style: Select normal, italic, or oblique
+- Text Color: Set the color of theorem text
+- Background Color: Choose the background color
+- Border: Customize border color, width, and style
+- Spacing: Adjust padding and margin
+- Border Radius: Set corner roundness
 
 ## Development
 
@@ -81,4 +55,4 @@ Simply create a block starting with `#Theorem` and the plugin will automatically
 
 ## License
 
-MIT 
+MIT
