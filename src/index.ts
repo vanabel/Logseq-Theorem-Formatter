@@ -2,23 +2,11 @@ import '@logseq/libs'
 
 // Use Logseq's logging system
 const log = (msg: string) => {
-  logseq.UI.showMsg(msg, 'info')
+  logseq.UI.showMsg(`[Theorem Formatter] ${msg}`, 'info')
   console.log(`[Theorem Formatter] ${msg}`)
 }
 
 log('Plugin script starting...')
-
-interface BlockEntity {
-  uuid: string
-  content: string
-}
-
-const formatTheorem = (content: string) => {
-  const theoremName = content.replace(/^#Theorem\s*/, '').trim()
-  return theoremName.match(/^\d+\.\d+$/) 
-    ? `**Theorem ${theoremName}.**`  // For numbered theorems like "1.1"
-    : `**Theorem (${theoremName}).**` // For named theorems
-}
 
 const main = async () => {
   log('Plugin main function starting...')
@@ -46,11 +34,6 @@ const main = async () => {
     }
 
     /* Style for theorem block paragraphs */
-    .ls-block[data-refs-self*="theorem"] p {
-      font-family: "KaiTi", "楷体", "STKaiti", "华文楷体", serif !important;
-    }
-
-    /* Additional selectors for theorem blocks */
     .ls-block[data-refs-self*="theorem"] .block-content-inner {
       font-family: "KaiTi", "楷体", "STKaiti", "华文楷体", serif !important;
     }
@@ -76,46 +59,38 @@ const main = async () => {
     .ls-block[data-refs-self*="theorem"] .katex-mathml {
       font-family: KaTeX_Math, "Times New Roman", Times, serif !important;
     }
+
+    /* Style for theorem tags */
+    .ls-block[data-refs-self*="theorem"] .tag {
+      font-weight: bold !important;
+      font-family: "KaiTi", "楷体", "STKaiti", "华文楷体", serif !important;
+    }
   `)
 
   // Listen for block changes
   logseq.DB.onBlockChanged('*', async (block: any) => {
     try {
-      log(`Block changed: ${JSON.stringify(block)}`)
+      if (!block.content) return
       
-      if (!block.content) {
-        log('Block has no content')
-        return
-      }
-
+      // Check if the block starts with #Theorem
       if (block.content.startsWith('#Theorem')) {
-        log('Found theorem block in change event')
-        const formattedName = formatTheorem(block.content)
-        log(`Updating block with: ${formattedName}`)
+        log(`Found new theorem block: ${block.content}`)
         
-        // Add theorem tag to the block
-        await logseq.Editor.updateBlock(block.uuid, formattedName, {
+        await logseq.Editor.updateBlock(block.uuid, block.content, {
           properties: {
             theorem: true,
             type: 'theorem'
           }
         })
-
-        // Try to add the class directly to the block element
-        const blockElement = document.querySelector(`[data-block-id="${block.uuid}"]`)
-        if (blockElement) {
-          blockElement.setAttribute('data-refs-self', 'theorem')
-          log('Added theorem attribute to element')
-        }
         
-        log('Block updated successfully')
+        log('Block styled successfully')
       }
     } catch (error) {
-      log(`Error processing block: ${error}`)
+      log(`Error: ${error}`)
     }
   })
 
-  // Also try to process existing blocks
+  // Process existing blocks
   try {
     const blocks = await logseq.DB.q('[:find (pull ?b [*]) :where [?b :block/content ?c] [(clojure.string/starts-with? ?c "#Theorem")]]')
     log(`Found ${blocks?.length || 0} existing theorem blocks`)
@@ -123,19 +98,12 @@ const main = async () => {
     if (blocks) {
       for (const block of blocks) {
         if (block.content.startsWith('#Theorem')) {
-          const formattedName = formatTheorem(block.content)
-          await logseq.Editor.updateBlock(block.uuid, formattedName, {
+          await logseq.Editor.updateBlock(block.uuid, block.content, {
             properties: {
               theorem: true,
               type: 'theorem'
             }
           })
-
-          // Try to add the class directly to the block element
-          const blockElement = document.querySelector(`[data-block-id="${block.uuid}"]`)
-          if (blockElement) {
-            blockElement.setAttribute('data-refs-self', 'theorem')
-          }
         }
       }
     }
