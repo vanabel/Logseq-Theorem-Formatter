@@ -1,19 +1,22 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
+  base: process.env.NODE_ENV === 'production' ? './' : '/',
   build: {
+    outDir: 'dist',
+    emptyOutDir: true,
     target: 'esnext',
     minify: false, // Disable minification for debugging
-    outDir: 'dist',
     rollupOptions: {
-      input: 'index.html',
+      input: {
+        main: 'index.html',
+      },
       output: {
         entryFileNames: 'index.js',
         format: 'es'
       }
     }
   },
-  base: './',
   server: {
     port: 3000
   }
