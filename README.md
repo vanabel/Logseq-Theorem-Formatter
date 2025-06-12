@@ -1,6 +1,6 @@
 # Logseq Theorem Formatter
 
-A Logseq plugin that formats theorem-like blocks with customizable styles and supports both English and Chinese theorem environments.
+A powerful and flexible plugin for Logseq that enhances the presentation of mathematical and theoretical content. This plugin provides elegant formatting for theorem-like blocks, making it perfect for mathematicians, researchers, students, and anyone who needs to present formal mathematical content in their notes.
 
 ## Features
 
@@ -138,10 +138,39 @@ To submit this plugin to the Logseq marketplace:
    npm run build
    ```
 3. Create a new release on GitHub:
+   - Go to your repository on GitHub
+   - Click on "Releases" in the right sidebar
+   - Click "Create a new release"
    - Tag version (e.g., v1.0.0)
    - Title: "Release v1.0.0"
-   - Description: List of changes
+   - Description: 
+     ```
+     # Logseq Theorem Formatter v1.0.0
+
+     A powerful plugin that brings elegant theorem formatting to Logseq, supporting both English and Chinese mathematical environments.
+
+     ## Key Features
+     - 🎯 Bilingual Support: Seamlessly switch between English and Chinese theorem environments
+     - 🎨 Customizable Styling: Full control over fonts, colors, borders, and spacing
+     - 📝 Real-time Formatting: Automatic updates as you type
+     - 🔢 Math Formula Support: Preserves proper formatting for mathematical expressions
+     - ⚙️ Flexible Configuration: Customize theorem environments to your needs
+
+     ## Installation
+     1. Go to Logseq Settings
+     2. Navigate to Plugins
+     3. Search for "Theorem Formatter"
+     4. Click Install
+
+     ## Usage
+     Simply add theorem environment tags to your blocks (e.g., `#Theorem` or `#定理`) and watch them transform with beautiful formatting.
+
+     ## Default Environments
+     - English: Theorem, Lemma, Corollary, Proposition, Definition, Example, Remark, Note, Proof
+     - Chinese: 定理, 引理, 推论, 命题, 定义, 例子, 注记, 注释, 证明
+     ```
    - Attach the built zip file from `dist/logseq-theorem-formatter.zip`
+   - Click "Publish release"
 
 The GitHub Action will automatically:
 1. Build the plugin
