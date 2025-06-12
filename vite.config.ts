@@ -9,7 +9,7 @@ export default defineConfig({
     minify: false, // Disable minification for debugging
     rollupOptions: {
       input: {
-        main: 'index.html',
+        main: 'src/index.ts',  // Use TypeScript source as entry
       },
       output: {
         entryFileNames: 'index.js',

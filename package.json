@@ -6,9 +6,10 @@
   "scripts": {
     "clean": "rm -rf dist plugin-dist logseq-theorem-formatter.zip",
     "dev": "npm run clean && vite",
-    "build": "npm run clean && tsc && vite build && mkdir -p plugin-dist && cp dist/index.html dist/index.js package.json manifest.json plugin-dist/ && cd plugin-dist && zip -r ../logseq-theorem-formatter.zip . && cd .. && rm -rf plugin-dist",
+    "build": "npm run clean && tsc && vite build && mkdir -p plugin-dist && cp index.html dist/index.js package.json manifest.json plugin-dist/ && sed -i '' 's|/src/index.ts|./index.js|g' plugin-dist/index.html && cd plugin-dist && zip -r ../logseq-theorem-formatter.zip . && cd .. && rm -rf plugin-dist",
     "preview": "vite preview",
-    "watch": "npm run clean && vite build --watch"
+    "watch": "npm run clean && vite build --watch",
+    "test-zip": "rm -rf test-plugin && mkdir -p test-plugin && unzip logseq-theorem-formatter.zip -d test-plugin && ls -la test-plugin && echo '\nContents of index.html:' && cat test-plugin/index.html"
   },
   "author": "",
   "license": "MIT",

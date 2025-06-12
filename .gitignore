@@ -4,6 +4,10 @@ node_modules/
 # Build output
 dist/
 build/
+test-plugin/
+plugin-dist/
+index.js
+logseq-theorem-formatter.zip
 
 # IDE and editor files
 .vscode/

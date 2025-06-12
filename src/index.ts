@@ -3,12 +3,9 @@ import * as marked from 'marked'
 import { gfmHeadingId } from 'marked-gfm-heading-id'
 
 // Configure marked with gfm-heading-id and disable all deprecated parameters
-marked.use({
-  ...gfmHeadingId(),
-  mangle: false,
-  headerIds: false,
-  headerPrefix: ''
-})
+marked.use(gfmHeadingId({
+  prefix: ''
+}))
 
 // Use Logseq's logging system
 const log = (msg: string, showPopup: boolean = false) => {
